@@ -34,7 +34,7 @@ class ShellExecTest extends \PHPUnit_Framework_TestCase
     {
         $shellExec = new ShellExec();
         $shellExec->exec("ls -K");
-        $this->setExpectedExceptionRegExp('Cognitive\ShellExec\ShellExecException', '/Error text:.*illegal option/');
+        $this->setExpectedExceptionRegExp('Cognitive\ShellExec\ShellExecException', '/Error text:.* option/');
         $shellExec->exec("ls -K", true);
     }
 
@@ -46,7 +46,7 @@ class ShellExecTest extends \PHPUnit_Framework_TestCase
     public function testExecExceptionWithOutput()
     {
         $shellExec = new ShellExec();
-        $this->setExpectedExceptionRegExp('Cognitive\ShellExec\ShellExecException', '/: ls: illegal option/');
+        $this->setExpectedExceptionRegExp('Cognitive\ShellExec\ShellExecException', '/: ls: .* option/');
         $shellExec->exec("ls -K 2>&1", true);
     }
 
