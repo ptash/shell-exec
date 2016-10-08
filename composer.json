@@ -1,10 +1,12 @@
 {
-    "name": "cognitive/util/shell-exec",
+    "name": "cognitive/shell-exec",
     "description": "Shell execute command library",
+    "type": "library",
+    "homepage": "http://www.cognitive.ru/",
     "authors": [
         {
-            "name": "Interprogma",
-            "email": "info@interprogma.ru"
+            "name": "Cognitive",
+            "email": "info@cognitive.ru"
         }
     ],
     "require": {
@@ -14,8 +16,8 @@
     },
     "autoload": {
         "psr-4": {
-            "ShellExec\\": "src/",
-            "ShellExec\\Tests\\": "tests/"
+            "Cognitive\\ShellExec\\": "src/",
+            "Cognitive\\ShellExec\\Tests\\": "tests/"
         }
     }
 }

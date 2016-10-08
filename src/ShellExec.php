@@ -2,10 +2,10 @@
 /**
  * Util to exec shell command.
  *
- * @package ShellExec
+ * @package Cognitive\ShellExec
  */
 
-namespace ShellExec;
+namespace Cognitive\ShellExec;
 
 /**
  * Class to exec shell command.
@@ -23,16 +23,23 @@ class ShellExec
      */
     public function exec($command, $withException = false)
     {
-        $tmpStdErr = \sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'shellExecStdErr';
-        $commandToExec = $command . " 2>$tmpStdErr";
+        $commandToExec = $command;
+        if (false === strpos($command, ' 2>')) {
+            $tmpStdErr = \sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'shellExecStdErr';
+            $commandToExec .= " 2>$tmpStdErr";
+        }
         exec($commandToExec, $output, $code);
         if (count($output) === 0) {
             $output = '';
         } else {
             $output = trim(implode(PHP_EOL, $output));
         }
-        $stdErr = file_get_contents($tmpStdErr);
-        unlink($tmpStdErr);
+        if (!empty($tmpStdErr)) {
+            $stdErr = file_get_contents($tmpStdErr);
+            unlink($tmpStdErr);
+        } else {
+            $stdErr = '';
+        }
         if (0 !== $code && $withException) {
             throw new ShellExecException($command, $output, $stdErr, $code);
         }

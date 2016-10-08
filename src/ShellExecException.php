@@ -1,10 +1,10 @@
 <?php
 /**
  * Exeption for exec.
- * @package ShellExec
+ * @package Cognitive\ShellExec
  */
 
-namespace ShellExec;
+namespace Cognitive\ShellExec;
 
 /**
  * Class ExecException
