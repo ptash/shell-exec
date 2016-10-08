@@ -1,0 +1,21 @@
+{
+    "name": "cognitive/util/shell-exec",
+    "description": "Shell execute command library",
+    "authors": [
+        {
+            "name": "Interprogma",
+            "email": "info@interprogma.ru"
+        }
+    ],
+    "require": {
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4"
+    },
+    "autoload": {
+        "psr-4": {
+            "ShellExec\\": "src/",
+            "ShellExec\\Tests\\": "tests/"
+        }
+    }
+}

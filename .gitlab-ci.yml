@@ -1,0 +1,15 @@
+# Composer stores all downloaded packages in the vendor/ directory.
+# Do not use the following if the vendor/ directory is commited to
+# your git repository.
+cache:
+  paths:
+  - vendor/
+
+before_script:
+# Install composer dependencies
+- curl --silent --show-error https://getcomposer.org/installer | php
+- php composer.phar install
+
+test:app:
+  script:
+  - ./vendor/bin/phpunit --coverage-text
