@@ -61,4 +61,18 @@ class ShellExecTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedExceptionRegExp('Cognitive\ShellExec\ShellExecException', '/Command not found/');
         $shellExec->exec('CommandNotFound', true);
     }
+
+    /**
+     * Test explodeLinesToArray.
+     *
+     * @return void
+     */
+    public function testExplodeLinesToArray()
+    {
+        $shellExec = new ShellExec();
+        $lines = $shellExec->explodeLinesToArray("\ns2\ns3\n");
+        $this->assertEquals(2, count($lines));
+        $this->assertEquals('s2', $lines[1]);
+        $this->assertEquals('s3', $lines[2]);
+    }
 }

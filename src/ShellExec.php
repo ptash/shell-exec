@@ -45,4 +45,21 @@ class ShellExec
         }
         return $output;
     }
+
+    /**
+     * Explode multiline string to array with no empty values.
+     *
+     * @param string $str Multiline string.
+     *
+     * @return array[string]
+     * @since 0.0.1 introduced.
+     */
+    public function explodeLinesToArray($str)
+    {
+        $lines = explode("\n", $str);
+        $lines = array_filter($lines, function ($line) {
+            return !empty($line);
+        });
+        return $lines;
+    }
 }
