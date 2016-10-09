@@ -21,7 +21,7 @@ class ShellExec
      * @return string Output.
      * @throws ShellExecException If the process didn't terminate successfully and param $withException is true.
      */
-    public function exec($command, $withException = false)
+    public function exec($command, $withException = true)
     {
         $commandToExec = $command;
         if (false === strpos($command, ' 2>')) {

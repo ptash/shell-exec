@@ -33,9 +33,9 @@ class ShellExecTest extends \PHPUnit_Framework_TestCase
     public function testExecException()
     {
         $shellExec = new ShellExec();
-        $shellExec->exec("ls -K");
+        $shellExec->exec("ls -K", false);
         $this->setExpectedExceptionRegExp('Cognitive\ShellExec\ShellExecException', '/Error text:.* option/');
-        $shellExec->exec("ls -K", true);
+        $shellExec->exec("ls -K");
     }
 
     /**
