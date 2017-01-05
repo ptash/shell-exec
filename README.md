@@ -1,4 +1,5 @@
 # Shell execute command library
 
-[![build status](http://gitlab.office.ip.ru/util/shell-exec/badges/master/build.svg)](http://gitlab.office.ip.ru/util/shell-exec/commits/master)
-[![coverage report](http://gitlab.office.ip.ru/util/shell-exec/badges/master/coverage.svg)](http://gitlab.office.ip.ru/util/shell-exec/commits/master)
+[![Build Status](https://travis-ci.org/ptash/shell-exec.svg?branch=master)](https://travis-ci.org/ptash/shell-exec)
+[![Coverage Status](https://coveralls.io/repos/github/ptash/shell-exec/badge.svg?branch=master)](https://coveralls.io/github/ptash/shell-exec?branch=master)
+
