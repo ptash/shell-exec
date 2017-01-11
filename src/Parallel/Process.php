@@ -114,4 +114,20 @@ class Process
     {
         return $this->parameters;
     }
+
+    /**
+     * Waits for the process to terminate.
+     *
+     * The callback receives the type of output (out or err) and some bytes
+     * from the output in real-time while writing the standard input to the process.
+     * It allows to have feedback from the independent process during execution.
+     *
+     * @param callable|null $callback A valid PHP callback.
+     *
+     * @return int The exitcode of the process.
+     */
+    public function wait($callback = null)
+    {
+        return $this->process->wait($callback);
+    }
 }
