@@ -16,6 +16,9 @@ use Symfony\Component\Translation\Translator;
  */
 class ShellExecParallel
 {
+    /** @var int Time to sleep during child processes wait (in microseconds) */
+    const SLEEP_TIME_DURING_WAIT = 100000;
+
     /** @var TranslatorInterface */
     protected $translator;
     /** @var int */
@@ -169,6 +172,11 @@ class ShellExecParallel
                     $countRun++;
                 } elseif ($process->isStarted() && !$process->isFinished() && !$process->isRunning()) {
                     echo $process->getIncrementalOutput();
+
+                    // In order to guarantee closing of pipes etc.
+                    $process->wait();
+                    echo $process->getIncrementalOutput();
+
                     if ($process->getExitCode() > 0) {
                         $exitCode = 1;
                         $fail++;
@@ -181,6 +189,10 @@ class ShellExecParallel
                 } elseif ($process->isStarted() && !$process->isFinished()) {
                     echo $process->getIncrementalOutput();
                 }
+            }
+
+            if ($countRun > 0) {
+                usleep(self::SLEEP_TIME_DURING_WAIT);
             }
         } while ($countRun);
         
