@@ -22,6 +22,8 @@ class Process
     protected $started = false;
     /** @var bool */
     protected $finished = false;
+    /** @var float */
+    protected $startTime;
 
     /**
      * Process constructor.
@@ -65,7 +67,18 @@ class Process
     public function start()
     {
         $this->process->start();
+        $this->startTime = microtime(true);
         $this->started = true;
+    }
+
+    /**
+     * Get running time in seconds. If not run then 0.
+     *
+     * @return int|float
+     */
+    public function getRunningTime()
+    {
+        return $this->isRunning() ? microtime(true) - $this->startTime : 0;
     }
 
     /**
@@ -92,7 +105,9 @@ class Process
      */
     public function getExitCode()
     {
-        return $this->process->getExitCode();
+        $code = $this->process->getExitCode();
+        $this->parameters['%exitCode%'] = $code;
+        return $code;
     }
 
     /**
@@ -129,5 +144,15 @@ class Process
     public function wait($callback = null)
     {
         return $this->process->wait($callback);
+    }
+
+    /**
+     * Stops the process.
+     *
+     * @return int The exit-code of the process
+     */
+    public function stop()
+    {
+        return $this->process->stop();
     }
 }
