@@ -26,22 +26,30 @@ class ShellExecParallel
     /** @var string */
     protected $messageStart = 'Start command "%command%"';
     /** @var string */
-    protected $messageFinishedWithErrors = 'Command "%command%" finished with errors';
+    protected $messageFinishedWithErrors = 'Command "%command%" finished with errors. Exit code %exitCode%';
     /** @var string */
     protected $messageFinishedSuccess = 'Command "%command%" finished success';
     /** @var string */
     protected $messageTotal = 'Parallel execution total: %success% success and %fail% fail';
+    /** @var string */
+    protected $messageStop = 'Command "%command%" stop because execution time more then %execTime% seconds';
+    /** @var int Process max execution time in seconds */
+    protected $processMaxExecutionTime = 0;
     /**
      * ShellExecParallel constructor.
      *
-     * @param TranslatorInterface $translator Instance of TranslatorInterface.
+     * @param TranslatorInterface $translator              Instance of TranslatorInterface.
+     * @param int                 $processMaxExecutionTime Process max execution time in seconds. If 0 then no limit.
      *
      * @return void
      */
-    public function __construct(TranslatorInterface $translator = null)
+    public function __construct(TranslatorInterface $translator = null, $processMaxExecutionTime = null)
     {
         if (empty($translator)) {
             $this->translator = new Translator('en_EN');
+        }
+        if (null !== $processMaxExecutionTime) {
+            $this->processMaxExecutionTime = $processMaxExecutionTime;
         }
     }
 
@@ -91,6 +99,18 @@ class ShellExecParallel
     public function setMessageTotal($messageTotal)
     {
         $this->messageTotal = $messageTotal;
+    }
+
+    /**
+     * Set stop message.
+     *
+     * @param string $messageStop Text message.
+     *
+     * @return void
+     */
+    public function setMessageStop($messageStop)
+    {
+        $this->messageStop = $messageStop;
     }
 
     /**
@@ -187,6 +207,14 @@ class ShellExecParallel
                     }
                     $countRun--;
                 } elseif ($process->isStarted() && !$process->isFinished()) {
+                    if (0 !== $this->processMaxExecutionTime &&
+                        $process->getRunningTime() > $this->processMaxExecutionTime) {
+                        $this->output(
+                            $this->messageStop,
+                            array_merge($process->getParameters(), ['%execTime%' => $this->processMaxExecutionTime])
+                        );
+                        $process->stop();
+                    }
                     echo $process->getIncrementalOutput();
                 }
             }

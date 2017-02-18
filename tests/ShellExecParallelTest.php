@@ -92,4 +92,21 @@ class ShellExecParallelTest extends \PHPUnit_Framework_TestCase
             'Async execution total: 0 ok and 1 bad/s'
         );
     }
+
+    /**
+     * Test proccess stop
+     *
+     * @return void
+     */
+    public function testStop()
+    {
+        $exec = new ShellExecParallel(null, 1);
+        $code = $exec->exec(array('echo \'<?php while(1) {sleep(10);};\' | php'));
+        $this->assertNotEquals(0, $code, 'Check not 0 exit code');
+        $this->expectOutputRegex(
+            '/stop because execution time more then 1 seconds.*' .
+            'finished with errors. Exit code.*' .
+            '0 success and 1 fail/s'
+        );
+    }
 }
