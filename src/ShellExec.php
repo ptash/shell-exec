@@ -25,7 +25,7 @@ class ShellExec
     {
         $commandToExec = $command;
         if (false === strpos($command, ' 2>')) {
-            $tmpStdErr = \sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'shellExecStdErr';
+            $tmpStdErr = \tempnam(\sys_get_temp_dir(), 'shellExecStdErr');
             $commandToExec .= " 2>$tmpStdErr";
         }
         exec($commandToExec, $output, $code);
